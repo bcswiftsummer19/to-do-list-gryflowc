@@ -16,6 +16,10 @@ class ViewController: UIViewController {
     
     var toDoArray = ["Learn Swift", "Build Apps", "Change the world!"]
     
+    var toDoNotesArray = ["I will go on a practice run before the charity run on Thursday.",
+                          "Remember to call Tata and wish him a happy father's day.",
+                          "Do laundry."]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +72,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         cell.textLabel?.text = toDoArray[indexPath.row]
+        cell.detailTextLabel?.text = toDoNotesArray[indexPath.row]
         return cell
     }
     
