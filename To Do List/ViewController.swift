@@ -35,6 +35,11 @@ class ViewController: UIViewController {
         toDoNotesArray = defaultsData.stringArray(forKey: "toDoNotesArray") ?? [String]()
     }
     
+    func saveDefaultsData() {
+        defaultsData.set(toDoArray, forKey: "toDoArray")
+        defaultsData.set(toDoNotesArray, forKey: "toDoNotesArray")
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EditItem" {
             let destination = segue.destination as! DetailViewController
@@ -60,9 +65,9 @@ class ViewController: UIViewController {
             toDoNotesArray.append(sourceViewController.toDoNoteItem!)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
-        defaultsData.set(toDoArray, forKey: "toDoArray")
-        defaultsData.set(toDoNotesArray, forKey: "toDoNotesArray")
+        saveDefaultsData()
     }
+    
     @IBAction func editBarButtonPressed(_ sender: UIBarButtonItem) {
         if tableView.isEditing {
             tableView.setEditing(false, animated: true)
@@ -94,6 +99,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
             toDoArray.remove(at: indexPath.row)
             toDoNotesArray.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            saveDefaultsData()
         }
     }
     
@@ -104,5 +110,6 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         toDoNotesArray.remove(at: sourceIndexPath.row)
         toDoArray.insert(itemMove, at: destinationIndexPath.row)
         toDoNotesArray.insert(noteToMove, at: destinationIndexPath.row)
+        saveDefaultsData()
     }
 }
