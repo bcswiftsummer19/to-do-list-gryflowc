@@ -14,17 +14,25 @@ class ViewController: UIViewController {
     @IBOutlet weak var editBarButton: UIBarButtonItem!
     @IBOutlet weak var addBarButton: UIBarButtonItem!
     
-    var toDoArray = ["Learn Swift", "Build Apps", "Change the world!"]
+    var defaultsData = UserDefaults.standard
     
-    var toDoNotesArray = ["I will go on a practice run before the charity run on Thursday.",
-                          "Remember to call Tata and wish him a happy father's day.",
-                          "Do laundry."]
+    var toDoArray = [String]()
+    var toDoNotesArray = [String]()
+    
+//    var toDoArray = ["Learn Swift", "Build Apps", "Change the world!"]
+//
+//    var toDoNotesArray = ["I will go on a practice run before the charity run on Thursday.",
+//                          "Remember to call Tata and wish him a happy father's day.",
+//                          "Do laundry."]
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        toDoArray = defaultsData.stringArray(forKey: "toDoArray") ?? [String]()
+        toDoNotesArray = defaultsData.stringArray(forKey: "toDoNotesArray") ?? [String]()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -52,6 +60,8 @@ class ViewController: UIViewController {
             toDoNotesArray.append(sourceViewController.toDoNoteItem!)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
+        defaultsData.set(toDoArray, forKey: "toDoArray")
+        defaultsData.set(toDoNotesArray, forKey: "toDoNotesArray")
     }
     @IBAction func editBarButtonPressed(_ sender: UIBarButtonItem) {
         if tableView.isEditing {
